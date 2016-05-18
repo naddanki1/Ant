@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+   <project name="Hello World Project" basedir="." default="war">
+   <property name="src.dir" value="src" />
+   <property name="war.dir" value="war" />
+   <property name="jar.dir" value="jar"/>
+   <property name="dest.dir" value="dest"/>
+   <property file="build.properties" />
+
+   <target name="info">
+      <echo>Hello World - Welcome to Apache Ant!</echo>
+      <echo>Java version is ${ant.java.version}</echo>
+   </target>
+
+
+   <target name="build" depends="info,clean" description="compiling code using javac">
+     <echo> compiling the code </echo>
+     <mkdir dir="${dest.dir}"/>
+     <javac destdir="${dest.dir}" >
+     <src path="${src.dir}"/>
+     </javac>
+  </target>
+
+
+  <target name="clean" description="remove the previously build files">
+     <echo> removing the build files</echo>
+     <delete>
+     <fileset dir ="${dest.dir}">
+     </fileset>
+    </delete>
+  </target>
+
+
+<target name="create-jar" depends="build" description="create a jar file">
+ <echo> creating a ${jar.dir}/fisrt.jar file:  </echo>
+   <jar destfile="${jar.dir}/first.jar"
+        basedir="${dest.dir}">
+
+   </jar>
+</target>
+
+
+<target name="war" depends="create-jar" description="creating a war file">
+     <echo> creating a war file:</echo>
+     <war destfile="${war.dir}/build.war" needxmlfile="false">
+
+     <fileset dir="${jar.dir}" />
+     <fileset dir="${src.dir}" />
+     </war>
+</target>
+
+
+</project>
+
